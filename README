@@ -1,0 +1,41 @@
+Założenia projektowe Route Tracer 3000 (generowanie zdarzeń opisujących ruch pojazdów)
+
+* Geokodowanie odbywa się za pomocą OpenCage.
+
+* Za wyznaczania trasy odpowiedzialny jest Graphhopper.
+
+* Wizualizacją wyznaczonej trasy zajmuje się Leafletjs.
+
+* Dla lepszego wyglądu stron został użyty framework css Bootstrap.
+
+* W systemie rozróżniane są 3 kategorie zdarzeń:
+    - WORK          Podstawowe zdarzenie opisujące pracę bez przemieszczania. Nie posiada miejsca zakończenia zdarzenia.
+                    Reprezentowane przez klasę Event. Stanowi klasę bazową dla dwóch pozostałych zdarzeń.
+    - MOVE          Opisujący ruch pojazdu. Posiada dodatkowo listę punktów stanowiącą reprezentację przejechanej trasy.
+                    Reprezentowana przez klasę MoveEvent. Dziedziczy po klasie Event.
+    - SPECIFIC      Opisujące specjalne zdarzenia. Posiada dodatkowo mapę klucz-wartość reprezentującą specjalne wartości dla zdarzenia.
+                    Reprezentowana przez klasę SpecificEvent. Dziedziczy po klasie Event.
+
+* Trasa pobierana jest po stronie serwera przez link 'wyciągnięty' z lrm-graphoppera (została dodana zmienna gpUrl do Routingu),
+    do linku dodawane są parametry instructions=false aby nie pobierać instrukcji oraz points_encoded=false aby otrzymać nie kodowane punkty trasy.
+
+* Wartości klucz-wartość dla zdarzenia typu SPECIFIC kodowane są po stronie przeglądarki do formatu klucz:wartość;klucz:wartość; a następnie rozkodowywane po stronie serwera.
+
+* Pojazdy reprezenowane są przez klasę Car. Posiada ona takie właściwości jak: marka, model, numer rejestracyjny oraz typ.
+    - Typy pojazdów reprezenowane są przez enum VechicleType
+
+* Klasa Address reprezentuje lokalizację zwróconą z OpenCage. Jeśli występują pola 'undefinded' oznacza to brak informacji dla np ulicy.
+
+* Zdarzenia mogą być tylko dodawane oraz usuwane.
+
+* Fukcjonalność dodawania nowego zdarzenia realizowana jest na jednej stronie. Zapytania do zewnętrznych usług realizowane są za pośrednictwem jQuery.
+
+* Usunięcie z systemu pojazdu powoduje usunięcie wszystkich wydarzeń przypisanych do niego.
+
+* Wszystkie treści tekstowe realizowane są za pomocą MessageSource.
+
+* Do dodawania zdarzeń wykorzystano obiekty transferowe DTO.
+
+* Udostępnione zostało api RESTowe umożliwiające dodawanie, usuwanie oraz dostęp do zdarzeń (XML, JSON).
+
+* Każde zdarzenie może zostać pobrane w formacie xml.
