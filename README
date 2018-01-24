@@ -1,41 +1,47 @@
-Założenia projektowe Route Tracer 3000 (generowanie zdarzeń opisujących ruch pojazdów)
+# RouteTrace3000
+Application for generation of events describing vehicle traffic and managing routes/vehicles.
 
-* Geokodowanie odbywa się za pomocą OpenCage.
+## Prerequisites:
 
-* Za wyznaczania trasy odpowiedzialny jest Graphhopper.
+* Geocoding is done using OpenCage.
 
-* Wizualizacją wyznaczonej trasy zajmuje się Leafletjs.
+* Graphhopper is responsible for determining the route.
 
-* Dla lepszego wyglądu stron został użyty framework css Bootstrap.
+* The visualization of the designated route is dealt with by Leafletjs.
 
-* W systemie rozróżniane są 3 kategorie zdarzeń:
-    - WORK          Podstawowe zdarzenie opisujące pracę bez przemieszczania. Nie posiada miejsca zakończenia zdarzenia.
-                    Reprezentowane przez klasę Event. Stanowi klasę bazową dla dwóch pozostałych zdarzeń.
-    - MOVE          Opisujący ruch pojazdu. Posiada dodatkowo listę punktów stanowiącą reprezentację przejechanej trasy.
-                    Reprezentowana przez klasę MoveEvent. Dziedziczy po klasie Event.
-    - SPECIFIC      Opisujące specjalne zdarzenia. Posiada dodatkowo mapę klucz-wartość reprezentującą specjalne wartości dla zdarzenia.
-                    Reprezentowana przez klasę SpecificEvent. Dziedziczy po klasie Event.
+* The css Bootstrap framework was used for the better appearance of the pages.
 
-* Trasa pobierana jest po stronie serwera przez link 'wyciągnięty' z lrm-graphoppera (została dodana zmienna gpUrl do Routingu),
-    do linku dodawane są parametry instructions=false aby nie pobierać instrukcji oraz points_encoded=false aby otrzymać nie kodowane punkty trasy.
+* The system distinguishes three categories of events:
+    - WORK          A basic event describing work without moving. It has no place to end the event.
+                    Represented by the Event class. It is the base class for the two remaining events.
+    - MOVE          Describing the movement of the vehicle. In addition, it has a list of points representing the route traveled.
+                    Represented by the MoveEvent class. Inherits from the Event class.
+    - SPECIFIC      Describes special events. It also has a key-value map that represents special values for the event.
+                    Represented by the SpecificEvent class. Inherits from the Event class.
 
-* Wartości klucz-wartość dla zdarzenia typu SPECIFIC kodowane są po stronie przeglądarki do formatu klucz:wartość;klucz:wartość; a następnie rozkodowywane po stronie serwera.
+* The route is downloaded on the server side by the 'pulled out' link from the lrm-graphopper (the gpUrl variable has been added to the Routing),
+    the following parameters are added to the link: instructions=false so that you do not get instructions and points_encoded=false to get non-coded waypoints.
 
-* Pojazdy reprezenowane są przez klasę Car. Posiada ona takie właściwości jak: marka, model, numer rejestracyjny oraz typ.
-    - Typy pojazdów reprezenowane są przez enum VechicleType
+* The key-value for the SPECIFIC type event are coded on the browser side to the key: value; key: value; and then decoded on the server side.
 
-* Klasa Address reprezentuje lokalizację zwróconą z OpenCage. Jeśli występują pola 'undefinded' oznacza to brak informacji dla np ulicy.
+* The vehicles are represented by the Car class. It has such properties as: make, model, registration number and type.
+    - The vehicle types are represented by the enum Vehicle Type
 
-* Zdarzenia mogą być tylko dodawane oraz usuwane.
+* The Address class represents the location returned from OpenCage. If there are 'undefinded' fields, this means no information for eg street.
 
-* Fukcjonalność dodawania nowego zdarzenia realizowana jest na jednej stronie. Zapytania do zewnętrznych usług realizowane są za pośrednictwem jQuery.
+* Events can only be added and removed.
 
-* Usunięcie z systemu pojazdu powoduje usunięcie wszystkich wydarzeń przypisanych do niego.
+* The functionality of adding a new event is carried out on one page. POST/GET for external services are carried out via jQuery.
 
-* Wszystkie treści tekstowe realizowane są za pomocą MessageSource.
+* Removal from the vehicle system will delete all events assigned to it.
 
-* Do dodawania zdarzeń wykorzystano obiekty transferowe DTO.
+* All text content is implemented using the MessageSource. (i18)
 
-* Udostępnione zostało api RESTowe umożliwiające dodawanie, usuwanie oraz dostęp do zdarzeń (XML, JSON).
+* DTO transfer objects were used to add events.
 
-* Każde zdarzenie może zostać pobrane w formacie xml.
+* REST api enables to add, delete and access events (XML, JSON).
+
+* Each event can be downloaded in the xml format.
+
+Author
+Maciej Cyrka
